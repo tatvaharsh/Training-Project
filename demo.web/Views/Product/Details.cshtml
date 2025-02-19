@@ -1,0 +1,91 @@
+@model Demo.Entity.ViewModel.Product
+
+@{
+    ViewData["Title"] = Model.OperationType;
+
+}
+
+<h1>Details</h1>
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Product
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductName
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductPrice
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Available Quantity
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductQauntity
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10" id="categoryTab">
+
+        </dd>
+
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Brand
+        </dt>
+        <dd class="col-sm-10" id="brandTab">
+
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Product Description
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductDescription
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a>
+    | <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Brand/GetBrand',
+            data: { 'id': @Model.BrandId, 'operationType': "Get" },
+            method: 'GET',
+            success: function (data) {
+                $('#brandTab').text(data.message);
+            },
+            error: function () {
+                console.log("error")
+            }
+        });
+
+        $.ajax({
+            url: '/Category/GetCategory',
+            data: { 'id': @Model.CategoryId, 'operationType': "Get" },
+            method: 'GET',
+            success: function (data) {
+                $('#categoryTab').text(data.message);
+            },
+            error: function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

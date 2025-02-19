@@ -1,0 +1,66 @@
+@model Demo.Entity.ViewModel.BrandPagination
+<table class="table">
+    <thead>
+        <tr class="table-secondary">
+            <th>
+                Brands
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Brands)
+        {
+            <tr>
+                <td>
+                    @i.BrandName
+                </td>
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@i.BrandId" class="text-decoration-none text-dark"><i
+                            class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Edit"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@i.BrandId" class="text-decoration-none text-dark"><i
+                            class="bi bi-trash3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"></i></a>
+                    |
+                    <a asp-action="Details" asp-route-id="@i.BrandId" class="text-decoration-none text-dark"><i
+                            class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="View Details"></i></a>
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between " aria-label="Page navigation">
+    <div class=" mt-4">@Model.Page.FromRec - @Model.Page.ToRec of @Model.Page.TotalRecord</div>
+    <ul class="pagination justify-content-center mt-3">
+        @if (Model.Page.TotalPages >= 1)
+        {
+            <!-- Previous Page -->
+            <li class="page-item @(Model.Page.CurrentPage > 1 ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="paginationAjax(@Model.Page.CurrentPage-1)"
+                    aria-label="Previous">
+                    <span aria-hidden="true"><i class="bi bi-caret-left-fill text-info"></i> </span>
+                </a>
+            </li>
+
+            <!-- Page numbers -->
+            @for (int i = 1; i <= Model.Page.TotalPages; i++)
+            {
+                <li class="page-item @(Model.Page.CurrentPage == i ? "active" : " ")">
+                    <a class="page-link" id="plink-@i" href="javascript:void(0)" onclick="paginationAjax(@i)">@i</a>
+                </li>
+            }
+
+            <!-- Next page -->
+            <li class="page-item @(Model.Page.CurrentPage < Model.Page.TotalPages ? " " : "disabled")">
+                <a class="page-link" href="javascript:void(0)" onclick="paginationAjax(@Model.Page.CurrentPage+1)"
+                    aria-label="Next">
+                    <span aria-hidden="true"> <i class="bi bi-caret-right-fill text-info"></i> </span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

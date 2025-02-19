@@ -1,0 +1,38 @@
+﻿@using Demo.Entity.Helpers
+@model Demo.Entity.ViewModel.ProductPagination
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<a asp-action="Add"><button class='btn btn-secondary float-end mb-3' data-bs-toggle="tooltip" data-bs-placement="bottom"
+        title="Add New Product">
+        <i class="bi bi-plus-lg text-light"></i>
+    </button></a>
+<div id="tableContent" class="w-100">
+</div>
+
+<script>
+    function paginationAjax(pageNumber) {
+        if (pageNumber === 0) {
+            pageNumber = @((Model?.Page?.CurrentPage ?? 1));
+        }
+        $.ajax({
+            url: "/Product/GetProductList",
+            data: { 'pagesize': 3, 'pagenumber': pageNumber },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#tableContent").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#tableContent").html('An error has occurred');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        paginationAjax();
+    });
+</script>

@@ -1,0 +1,117 @@
+@model Demo.Entity.ViewModel.Product
+
+@{
+    ViewData["Title"] = Model.OperationType;
+
+}
+
+<div id="modalpopup">
+</div>
+<h1>Delete</h1>
+<h3>Are you sure you want to delete this?</h3>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Product
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductName
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductPrice
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Available Quantity
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductQauntity
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10" id="categoryTab">
+
+        </dd>
+
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Brand
+        </dt>
+        <dd class="col-sm-10" id="brandTab">
+
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Product Description
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProductDescription
+        </dd>
+    </dl>
+</div>
+<div>
+    <button type="button" onclick="deleteProduct(this)" value="@Model.ProductId" class="btn btn-danger">Delete</button>
+    | <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    function deleteProduct(element) {
+
+        var id = element.value;
+
+        $.ajax({
+            url: "/Product/ShowDeleteModal",
+            data: { 'id': id, 'requestType': "Product" },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+
+                $("#modalpopup").html(data);
+
+            },
+            error: function () {
+                alert("No Projects Found");
+
+            }
+        });
+    };
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Brand/GetBrand',
+            data: { 'id': @Model.BrandId, 'operationType': "Get" },
+            method: 'GET',
+            success: function (data) {
+                $('#brandTab').text(data.message);
+            },
+            error: function () {
+                console.log("error")
+            }
+        });
+
+        $.ajax({
+            url: '/Category/GetCategory',
+            data: { 'id': @Model.CategoryId, 'operationType': "Get" },
+            method: 'GET',
+            success: function (data) {
+                $('#categoryTab').text(data.message);
+            },
+            error: function () {
+                console.log("error")
+            }
+        });
+    });
+</script>

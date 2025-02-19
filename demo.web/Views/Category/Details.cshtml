@@ -1,0 +1,31 @@
+@model Demo.Entity.ViewModel.Category
+
+@{
+    ViewData["Title"] = Model.OperationType;
+}
+
+<h1>@Model.OperationType</h1>
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CategoryName
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CategoryDescription
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.CategoryId">Edit</a>
+    | <a asp-action="Index">Back to List</a>
+</div>

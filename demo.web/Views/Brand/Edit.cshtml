@@ -1,0 +1,43 @@
+@model Demo.Entity.ViewModel.Brand
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>@Model.OperationType</h1>
+
+<h4>Brand</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BrandId" />
+            <input type="hidden" asp-for="OperationType" />
+            <div class="form-group">
+                <label asp-for="BrandName" class="control-label">Brand Name</label>
+                <input asp-for="BrandName" oninput="this.value = this.value.trimStart();" class="form-control" />
+                <span asp-validation-for="BrandName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandDescription" class="control-label">Description</label>
+                <textarea asp-for="BrandDescription" class="form-control"></textarea>
+                <span asp-validation-for="BrandDescription" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group text-end mt-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
